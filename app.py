@@ -75,9 +75,12 @@ def verify():
 def signup():
     global uname
     uname = uname+1
-    if check_log.query.filter_by(username = request.form['username'], password = request.form['password']).first() !=None:
-        return redirect('/')
+    
     if request.method=='POST':
+        if request.form['con_password']!=request.form['password']:
+            return render_template('signup.html')
+        if check_log.query.filter_by(username = request.form['username'], password = request.form['password']).first() !=None:
+            return redirect('/')
         if request.form['username']=='admin' and request.form['password']=='1234':
             new_user = db_attr(name = "", age = 0, desc = "", uniqueid = 1)
             status = check_log(username = request.form['username'],password = request.form['password'], uniqueid = new_user.uniqueid, loggedin = False)
