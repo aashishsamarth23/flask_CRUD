@@ -1,0 +1,87 @@
+
+ {% extends 'base.html' %}
+ {% block body %}
+  
+ 
+  <div class="container">
+    <form action="/dashboard/{{uniqueid}}" method="POST">
+      <!--div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Enter username (Your email)</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else (Just Kidding, we actually don't know if
+          we could do that lol.)</div>
+      </div-->
+      <div class="mb-3 my-4">
+        <h3>
+          Hey {{username}}, Please enter your project details:
+        </h3>
+        <label for="exampleInputName" class="form-label"> Project Title </label>
+        <input type="name" class="form-control" name="name" placeholder="Ex: Training" id="exampleInputName">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputAge" class="form-label"> Time required (hours)</label>
+        <input type="number" class="form-control" name="age" placeholder="Min 2 hours" id="exampleInputAge">
+      </div>
+      <div class="mb-3">
+        <label for="exampleROle" class="form-label"> Description </label>
+        <input type="role" class="form-control" placeholder="Brief description" name="role" id="exampleROle">
+      </div>
+      <!--div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password(DOB)</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div-->
+      <!-- <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div> -->
+      <button type="submit" class="btn btn-primary" style="color: #faf6f6; background-color: #0c0c0c;">Submit</button>
+    </form>
+  </div>
+  <div class="container my-4">
+    
+    <h3>
+      Your Entries
+    </h3>
+    <table class="table">
+      {% if dbase|length < 2 %}
+        <div class="alert alert-info" role="alert">
+          No Data found! Please enter your details
+        </div>
+      {% else %}
+      <thead>
+
+        <tr>
+          <th scope="col">entryNo</th>
+          <th scope="col">Title</th>
+          <th scope="col">Time req.</th>
+          <th scope="col">Description</th>
+          <th scope="col">actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        {% for todo in dbase %}
+        {% if todo.age >= 1 %}
+        <tr>
+            
+            <th scope="row">{{loop.index-1}}</th>
+            <td>{{todo.name}}</td>
+            <td>{{todo.age}}</td>
+            <td>{{todo.desc}}</td>
+            <td>
+              <a href="/delete/{{todo.sno}}/{{uniqueid}}" class="btn btn-outline-danger btn-sm" style="margin-right: 10px;" type="button"
+                class="btn btn-dark -mx-2">Delete</button>
+                <a href="/updateNow/{{todo.sno}}" class="btn btn-outline-success btn-sm" type="button"
+                  class="btn btn-dark -mx-2">Update</button>
+            </td>
+          </tr>
+        {% endif %}
+        {% endfor %}
+        
+
+      </tbody>
+      {% endif %}
+    </table>
+  </div>
+  {% endblock body %}
