@@ -35,6 +35,10 @@ class check_log(db.Model):
 
 with app.app_context():
     db.create_all()
+    arr = check_log.query.all()
+    l = len(arr)
+    if l>0:
+        uname = arr[l-1].uniqueid+50
 
 
 
