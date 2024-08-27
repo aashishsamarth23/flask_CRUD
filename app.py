@@ -59,17 +59,14 @@ def verify():
         password = request.form['password']
     else:
         return render_template('signup.html')
-    test = check_log.query.all()
-    for emp in test:
-        if emp.username==username and emp.password==password:
-            print('verified')
-            uid = emp.uniqueid
-            status = check_log.query.filter_by(uniqueid=uid).first()
-            status.loggedin = True
-            db.session.add(status)
-            db.session.commit()
-            return redirect('/dashboard/{}'.format(emp.uniqueid))
-    return render_template('signup.html')
+    test = check_log.query.filter_by(username = username, password = password).first()
+    if test==None:
+        return render_template('signup.html')
+    test.loggedin = True
+    db.session.add(test)
+    db.session.commit()
+    return redirect('/dashboard/{}'.format(test.uniqueid))
+    
 
 
 
@@ -78,6 +75,8 @@ def verify():
 def signup():
     global uname
     uname = uname+1
+    if check_log.query.filter_by(username = request.form['username'], password = request.form['password']).first() !=None:
+        return redirect('/')
     if request.method=='POST':
         if request.form['username']=='admin' and request.form['password']=='1234':
             new_user = db_attr(name = "", age = 0, desc = "", uniqueid = 1)
