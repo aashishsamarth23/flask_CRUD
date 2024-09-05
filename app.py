@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -167,7 +167,7 @@ def logout(uniqueid):
     check.loggedin = False
     db.session.add(check)
     db.session.commit()
-    return redirect('/')
+    return redirect(url_for('login'))
 
 
 
@@ -196,7 +196,7 @@ def search(uniqueid):
         dbase = db_attr.query.filter_by(name=t).all()
     else:
         dbase = db_attr.query.filter_by(name=t, uniqueid = uniqueid).all()
-    return render_template('search.html', dbase=dbase)
+    return render_template('search.html', dbase=dbase, uniqueid=uniqueid)
 
 
 
