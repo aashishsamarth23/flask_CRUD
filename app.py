@@ -235,7 +235,9 @@ def delete_first(uniqueid):
 #update the selected entry
 @app.route('/updateNow/<int:sno>')
 def updateNow(sno):
-    return render_template('update.html', test = db_attr.query.filter_by(sno=sno).first())
+    data = db_attr.query.get(sno)
+    uniqueid = data.uniqueid
+    return render_template('update.html', test = db_attr.query.filter_by(sno=sno).first(), uniqueid=uniqueid)
 
 
 
